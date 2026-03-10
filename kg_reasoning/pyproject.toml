@@ -1,0 +1,17 @@
+[project]
+name = "kg-reasoning"
+version = "0.1.0"
+description = "Knowledge-graph-augmented reasoning experiments with ollama + Neo4j"
+requires-python = ">=3.11"
+dependencies = [
+    "neo4j>=5.0",
+    "httpx>=0.27",
+    "pyarrow>=15.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
