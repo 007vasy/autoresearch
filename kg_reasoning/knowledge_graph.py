@@ -95,7 +95,8 @@ class KnowledgeGraph:
     def link_problem_concept(self, problem_id: str, concept_name: str):
         with self._session() as session:
             session.run(
-                """MATCH (p:Problem {id: $pid}), (c:Concept {name: $cname})
+                """MATCH (p:Problem {id: $pid})
+                   MATCH (c:Concept {name: $cname})
                    MERGE (p)-[:REQUIRES_CONCEPT]->(c)""",
                 pid=problem_id, cname=concept_name,
             )
@@ -103,7 +104,8 @@ class KnowledgeGraph:
     def link_problem_strategy(self, problem_id: str, strategy_id: str, correct: bool):
         with self._session() as session:
             session.run(
-                """MATCH (p:Problem {id: $pid}), (s:Strategy {id: $sid})
+                """MATCH (p:Problem {id: $pid})
+                   MATCH (s:Strategy {id: $sid})
                    MERGE (p)-[r:SOLVED_BY]->(s)
                    SET r.correct = $correct""",
                 pid=problem_id, sid=strategy_id, correct=correct,
@@ -112,7 +114,8 @@ class KnowledgeGraph:
     def link_problem_mistake(self, problem_id: str, mistake_name: str):
         with self._session() as session:
             session.run(
-                """MATCH (p:Problem {id: $pid}), (m:MistakePattern {name: $mname})
+                """MATCH (p:Problem {id: $pid})
+                   MATCH (m:MistakePattern {name: $mname})
                    MERGE (m)-[:OCCURS_IN]->(p)""",
                 pid=problem_id, mname=mistake_name,
             )
@@ -120,7 +123,8 @@ class KnowledgeGraph:
     def link_strategy_concept(self, strategy_id: str, concept_name: str):
         with self._session() as session:
             session.run(
-                """MATCH (s:Strategy {id: $sid}), (c:Concept {name: $cname})
+                """MATCH (s:Strategy {id: $sid})
+                   MATCH (c:Concept {name: $cname})
                    MERGE (s)-[:USES_CONCEPT]->(c)""",
                 sid=strategy_id, cname=concept_name,
             )
@@ -128,7 +132,8 @@ class KnowledgeGraph:
     def link_similar_problems(self, problem_id_1: str, problem_id_2: str):
         with self._session() as session:
             session.run(
-                """MATCH (p1:Problem {id: $id1}), (p2:Problem {id: $id2})
+                """MATCH (p1:Problem {id: $id1})
+                   MATCH (p2:Problem {id: $id2})
                    MERGE (p1)-[:SIMILAR_TO]-(p2)""",
                 id1=problem_id_1, id2=problem_id_2,
             )
